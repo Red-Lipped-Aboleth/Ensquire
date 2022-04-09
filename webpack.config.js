@@ -120,9 +120,6 @@ module.exports = function(_env, argv) {
       runtimeChunk: "single"
     },
     devServer: {
-      proxy: {
-        '/': 'http://localhost:80',
-      },
       compress: true,
       historyApiFallback: true,
       open: true,
