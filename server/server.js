@@ -3,9 +3,17 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const cookieParser = require('cookie-parser');
 const PORT = 3000;
 
-// JSON Parser
+// Import controllers
+const userController = require('./controllers/userController');
+const charsheetController = require('./controllers/charsheetController');
+
+// Import routers
+const routers = require('./routers/routers');
+
+// Global JSON Parser
 app.use(express.json());
 
 // Delivery of assets via express.static
