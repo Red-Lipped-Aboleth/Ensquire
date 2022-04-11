@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const PORT = 3000;
 
@@ -11,16 +12,19 @@ const userController = require('./controllers/userController');
 const charsheetController = require('./controllers/charsheetController');
 
 // Import routers
-const routers = require('./routers/routers');
+const charRouter = require('./routers/charRouter');
+const authRouter = require('./routers/authRouter');
 
-// Global JSON Parser
+// Global JSON and body and cookie parser based off content-type header
+app.use(bodyParser.urlencoded({ extended : true }), cookieParser());
 app.use(express.json());
 
 // Delivery of assets via express.static
 app.use('/assets', express.static(path.join(__dirname, '..dist/assets')));
 
 // Route handlers
-
+app.use('/charsheet', charRouter);
+app.use('/auth', authRouter);
 
 
 // 404 route handler
