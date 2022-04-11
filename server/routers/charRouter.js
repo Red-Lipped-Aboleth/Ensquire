@@ -9,3 +9,5 @@ router.get('/', charsheetController.getCharSheet, (req, res) => {
 router.put('/', charsheetController.updateCharSheet, (req, res) => {
   res.status(200).json(res.locals.charSheet);
 });
+
+module.exports = router;
