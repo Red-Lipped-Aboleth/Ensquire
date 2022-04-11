@@ -15,15 +15,14 @@ const charsheetController = require('./controllers/charsheetController');
 const charRouter = require('./routers/charRouter');
 const authRouter = require('./routers/authRouter');
 
-// Global JSON and body and cookie parser based off content-type header
-app.use(bodyParser.urlencoded({ extended : true }), cookieParser());
-app.use(express.json());
+// Global JSON, HTTP body, and cookie parser
+app.use(bodyParser.urlencoded({ extended : true }), cookieParser(), express.json());
 
 // Delivery of assets via express.static
-app.use('/assets', express.static(path.join(__dirname, '..dist/assets')));
+app.use('/assets', express.static(path.resolve(__dirname, '..dist/')));
 
 // Route handlers
-app.use('/charsheet', charRouter);
+app.use('/charsheet', authRouter, charRouter);
 app.use('/auth', authRouter);
 
 
