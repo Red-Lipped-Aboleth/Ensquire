@@ -1,5 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
+import * as actions from '../actions/actions';
 // import ReactDOM from 'react-dom'
 
 // import from child components...
@@ -12,26 +13,32 @@ import SkillContainer from './SkillContainer';
 import StatBlockContainer from './StatBlockContainer';
 
 const MainContainer = (props) => {
-  //getReq to backend to populate everything
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const res = await fetch('/charRouter');
-//       const newRes = await response.json();
-//     };
-//     fetchData();
-//   }, []);
+  // const getData = useSelector((state) => state.characterSheet);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch('/charsheet')
+      .then((res) => res.json())
+      .then((data) => {
+      dispatch(actions.populateSheet(data))
+      console.log('data:', data)
+      })
+      .catch((err) => {
+        console.log(`Error retrieving character sheet details! Error: ${err}`);
+      });
+   }, []);
 
   return (
     <main className="container">
       <h1 id="header">Dungeons & Dragons Character Sheet</h1>
       {/* Containers here... */}
-      <BasicInfoContainer/>
-      <MiscStatsContainer/>
-      <StatBlockContainer/>
-      <SavingThrowContainer/>
-      <SkillContainer/>
-      <PassiveContainer/>
-      <NotesContainer/>
+      <BasicInfoContainer />
+      <MiscStatsContainer />
+      <StatBlockContainer />
+      <SavingThrowContainer />
+      <SkillContainer />
+      <PassiveContainer />
+      <NotesContainer />
     </main>
   );
 };
