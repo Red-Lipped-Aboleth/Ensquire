@@ -4,11 +4,9 @@ import * as actions from '../actions/actions';
 const StatBlock = (props) => {
   const handleChange = (event) => {
     const propertyName = event.target.getAttribute('id');
-    const propertyObject = {}
-    propertyObject[propertyName] = event.target.value
-    props.dispatch(
-      actions.updateStatsBlock(propertyObject)
-    );
+    const propertyObject = {};
+    propertyObject[propertyName] = event.target.value;
+    props.dispatch(actions.updateStatsBlock(propertyObject));
   };
 
   function calculateModifier(score) {
@@ -18,7 +16,10 @@ const StatBlock = (props) => {
   return (
     <div className="stat">
       <span className="statName">{props.fullStatNames.toUpperCase()}</span>
-      <span className="statMod">{calculateModifier(props.stat)}</span>
+      <span className="statMod">
+        {calculateModifier(props.stat) >= 0 ? '+' : ''}
+        {calculateModifier(props.stat)}
+      </span>
       <input
         type="number"
         className="statNum"

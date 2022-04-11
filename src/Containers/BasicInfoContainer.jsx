@@ -30,61 +30,66 @@ const BasicInfoContainer = (props) => {
   return (
     <section className="basicInfo" id="basicInfo">
       {/* <img src={charPhoto} /> */}
-      <input
-        type="text"
-        name="characterName"
-        id="characterName"
-        value={getBasicInfo.characterName}
-        onChange={handleChange}
-      />
+      <section className="topHeader">
+      <label htmlFor="characterName">Name: </label>
+        <input
+          type="text"
+          name="characterName"
+          id="characterName"
+          value={getBasicInfo.characterName}
+          onChange={handleChange}
+        />
+        <label htmlFor="race">Race: </label>
+        <input
+          type="text"
+          name="race"
+          id="race"
+          value={getBasicInfo.race}
+          onChange={handleChange}
+        />
 
-      <input
-        type="text"
-        name="race"
-        id="race"
-        value={getBasicInfo.race}
-        onChange={handleChange}
-      />
-      
-      <label htmlFor="class">Class </label>
-      <input
-        type="text"
-        name="class"
-        id="class"
-        value={getBasicInfo.class}
-        onChange={handleChange}
-      />
+        <label htmlFor="class">Class: </label>
+        <input
+          type="text"
+          name="class"
+          id="class"
+          value={getBasicInfo.class}
+          onChange={handleChange}
+        />
 
+        <label htmlFor="level">Level: </label>
+        <input
+          type="number"
+          name="level"
+          id="level"
+          value={getBasicInfo.level}
+          min="1"
+          max="20"
+          step="1"
+          onChange={handleChange}
+        />
+      </section>
 
-      <label htmlFor="level">Level </label>
-      <input
-        type="number"
-        name="level"
-        id="level"
-        value={getBasicInfo.level}
-        min="1"
-        max="20"
-        step="1"
-        onChange={handleChange}
-      />
-
-      <label htmlFor="currHP">HIT POINTS </label>
-      <input
-        type="number"
-        name="currHP"
-        id="currHP"
-        value={getBasicInfo.currHP}
-        step="1"
-        onChange={handleChange}
-      />
-      <input
-        type="number"
-        name="maxHP"
-        id="maxHP"
-        value={getBasicInfo.maxHP}
-        step="1"
-        onChange={handleChange}
-      />
+      <section className="bottomHeader">
+        <label htmlFor="currHP">Hit Points: </label>
+        <input
+          type="number"
+          name="currHP"
+          id="currHP"
+          value={getBasicInfo.currHP}
+          step="1"
+          onChange={handleChange}
+        />
+        <span className="slash">/</span>
+        <input
+          type="number"
+          name="maxHP"
+          id="maxHP"
+          value={getBasicInfo.maxHP}
+          step="1"
+          onChange={handleChange}
+        />
+      </section>
     </section>
   );
 };
