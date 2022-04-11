@@ -1,47 +1,76 @@
 const db = require("../model/database_model")
 
-/*
-UPDATE table_name
-SET column1 = value1, column2 = value2, ...
-WHERE condition;
-
-
-const defaultBody = {
-    name : 'name',
-    date : 'date',
-    funStuff : 'funstuff',
-};
-
-const bodyInfo = {
-    name : 'Dan'
-}
-
-// create a SQL query that pulls all information (full character sheet) from SQL and converts it to object format
-// use object.assign to update that object with the information passed in req.body
-// use SQL query to parse updated object and update database accordingly
-*/
-
 characterController = {}
 //function to get all the character information
 characterController.getCharSheet = async (req, res, next) =>{
   const getCharQuery = `
-    SELECT *
-    FROM character c
+    SELECT c.*, s.*, st.str AS stStr, st.dex AS stDex, st.con AS stCon, st.int AS stInt, st.wis AS stWis, st.cha AS stWis, sk.*
+    FROM character c, ability_scores s, saving_throw st, skills sk
     WHERE c.character_id = (SELECT user_id FROM user_table WHERE username = $1)
-    INNER JOIN ability_scores s
-    ON c.ability_scores_id = s.score_id
-    INNER JOIN saving_throw st
-    ON c.saving_throw = st.throw_id
-    INNER JOIN skills sk
-    ON c.skills_id = sk.skills_id;
+    AND c.ability_scores_id = s.score_id
+    AND c.saving_throw_id = st.throw_id
+    AND sk.skills_id = sk.skills_id;
   `
   //deconstruct user from cookies to find the specific charactersheet associated with the user
-  const { username } = req.cookies
+  // const { username } = req.cookies
+  const username = 'danteng'
 
   try {
     //fetching all the data for the character sheet from the user
-    const character = await db.query(getCharQuery, username)
-    res.locals.charSheet = character.rows;
+    const character = await db.query(getCharQuery, [username])
+    const responseData = character.rows[0];
+    // console.log(responseData);
+    //deconstruct responseData to be in the expect object format
+    res.locals.charSheet = {
+      characterName: responseData.character_name,
+      abilityScores: {
+        str: responseData.str,
+        dex: responseData.dex,
+        con: responseData.con,
+        int: responseData.int,
+        wis: responseData.wis,
+        cha: responseData.cha
+      },
+      race: responseData.race,
+      class: responseData.class,
+      level: responseData.level,
+      armorClass: responseData.armor_class,
+      profBonus: responseData.prof_bonus,
+      speed: responseData.speed,
+      currHP: responseData.curr_hp,
+      maxHP: responseData.max_hp,
+      savingThrow: {
+        str: responseData.ststr,
+        dex: responseData.stdex,
+        con: responseData.stcon,
+        int: responseData.stint,
+        wis: responseData.stwis,
+        cha: responseData.stcon
+      },
+      skills: {
+          acrobatics: responseData.acrobatics,
+          animalHandling: responseData.animal_handling,
+          arcana: responseData.arcana,
+          athletics: responseData.athletics,
+          deception: responseData.deception,
+          history: responseData.history,
+          insight: responseData.insight,
+          intimidation: responseData.intimidation,
+          investigation: responseData.investigation,
+          medicine: responseData.medicine,
+          nature: responseData.nature,
+          perception: responseData.perception,
+          performance: responseData.performance,
+          persuasion: responseData.persuasion,
+          religion: responseData.religion,
+          sleightOfHand: responseData.sleight_of_hand,
+          stealth: responseData.stealth,
+          survival: responseData.survival
+      },
+      additionalNotes: responseData.additional_notes,
+      initiative: responseData.initiative
+    }
+    // console.log('CHAR SHEET FROM RES.LOCALS', res.locals.charSheet)
     return next()
   } catch (error) {
     return next({
@@ -53,17 +82,28 @@ characterController.getCharSheet = async (req, res, next) =>{
 };
 
 //function to update all the character information
-characterController.updateCharSheet = async (req, rest, next) => {
-    //grabbing username to use for all queries
-    const { username } = req.cookies;
+characterController.updateCharSheet = async (req, res, next) => {
+  //grabbing username to use for all queries
+  // const { username } = req.cookies;
+  const username = 'danteng'
+  //SQL query for getting character information
+  const getCharQuery = `
+    SELECT c.*, s.*, st.str AS stStr, st.dex AS stDex, st.con AS stCon, st.int AS stInt, st.wis AS stWis, st.cha AS stWis, sk.*
+    FROM character c, ability_scores s, saving_throw st, skills sk
+    WHERE c.character_id = (SELECT user_id FROM user_table WHERE username = $1)
+    AND c.ability_scores_id = s.score_id
+    AND c.saving_throw_id = st.throw_id
+    AND sk.skills_id = sk.skills_id;
+  `
 
   //SQL query for character update
   //Use WHERE once we decide to use character ID (multiple sheets)
   const charTableQuery = `
     UPDATE character
-    SET character_name = $2, race = $3, level = $4, armor_class = $5, prof_bonus = $6, speed = $7, curr_hp = $8, max_hp = $9, saving_throw = $10, skill_id = $11, additional_notes = $12, initiative = $13,
+    SET character_name = $2, race = $3, level = $4, armor_class = $5, prof_bonus = $6, speed = $7, curr_hp = $8, max_hp = $9, additional_notes = $10, initiative = $11, class = $12
     WHERE character_id = (SELECT user_id FROM user_table WHERE username = $1);
   `;
+
   //Deconstruction values from req.body related to character table
   const {
     characterName,
@@ -79,12 +119,14 @@ characterController.updateCharSheet = async (req, rest, next) => {
     // skill_id, <- not utilized as that is not from the body
     additionalNotes,
     initiative } = req.body;
+    //cannot use name class as it's a keyword
+  const charClass = req.body.class;
 
 
   //SQL query for ability scores update
   const abilityScoresQuery = `
     UPDATE ability_scores
-    SET asStr = $2, asDex = $3, asCon = $4, asInt = $5, asWis = $6, asCha = $7
+    SET str = $2, dex = $3, con = $4, int = $5, wis = $6, cha = $7
     WHERE score_id = (SELECT user_id FROM user_table WHERE username = $1);
   `;
   //Deconstruction values for req.body.abilityScores_id
@@ -94,8 +136,8 @@ characterController.updateCharSheet = async (req, rest, next) => {
   //SQL query for saving throw update
   const savingThrowQuery = `
     UPDATE saving_throw
-    SET stStr = $2, stDex = $3, stCon = $4, stInt = $5, stWis = $6, stCha = $7
-    WHERE score_id = (SELECT user_id FROM user_table WHERE username = $1);
+    SET str = $2, dex = $3, con = $4, int = $5, wis = $6, cha = $7
+    WHERE throw_id = (SELECT user_id FROM user_table WHERE username = $1);
   `;
  //Deconstruction values for req.body.savingThrow. Named differently as you can't have 2 Str variables
   const stStr = req.body.savingThrow.str;
@@ -110,7 +152,7 @@ characterController.updateCharSheet = async (req, rest, next) => {
   const skillsQuery = `
     UPDATE skills
     SET acrobatics = $2, animal_handling = $3, arcana = $4, athletics = $5, deception = $6, history = $7, insight = $8, intimidation = $9, investigation = $10, medicine = $11, nature = $12, perception = $13, performance = $14, persuasion = $15, religion = $16, sleight_of_hand = $17, stealth = $18, survival = $19
-    WHERE skill_id = (SELECT user_id FROM user_table WHERE username = $1)
+    WHERE skills_id = (SELECT user_id FROM user_table WHERE username = $1)
   `;
   //Deconstruction values for req.body.skill_id
   const { acrobatics, 
@@ -132,17 +174,10 @@ characterController.updateCharSheet = async (req, rest, next) => {
     stealth,
     survival } = req.body.skills;
 
-
   try {
-      //run the query based on a series of queries
-    const updatedCharData = await db.tx( async t => {
-        //run the first query - character query to update character table
-        //2nd parameter is deconstructed variables from request related to character with username as identifier used in query
-        const charUpdate = await t.query(charTableQuery, 
+    const firstQ = await db.query( charTableQuery, 
             [ username,
-            // character_id, <- not utilized as that is not from the body
             characterName, 
-            // ability_scores_id, <- not utilized as that is not from the body
             race, 
             level, 
             armorClass, 
@@ -150,37 +185,100 @@ characterController.updateCharSheet = async (req, rest, next) => {
             speed,
             currHP,
             maxHP,
-            savingThrow,
-            // skill_id,
             additionalNotes,
-            initiative ]);
-        // next run the second query - ability score query to update ability score table
-        // 2nd parameter is deconstructed var from request related to ability score with username as identifier
-        const scoresUpdate = await charUpdate.query(abilityScoresQuery,
-            [ username, str, dex, con, int, wis, cha ]);
+            initiative,
+            charClass ]);
+    // console.log('FIRST QUERY COMPLETED');
+    const secondQ = await db.query(abilityScoresQuery,
+          [ username, str, dex, con, int, wis, cha ]);
+    // console.log('SECOND QUERY COMPLETED');
+    const thirdQ = await db.query(savingThrowQuery,
+          [ username, stStr, stDex, stCon, stInt, stWis, stCha ]);
+    // console.log('THIRD QUERY COMPLETED');
+    const fourthQ = await db.query(skillsQuery,
+          [ username,
+            acrobatics, 
+            animalHandling, 
+            arcana, 
+            athletics, 
+            deception, 
+            history, 
+            insight, 
+            intimidation, 
+            investigation, 
+            medicine, 
+            nature, 
+            perception, 
+            performance, 
+            persuasion, 
+            religion, 
+            sleightOfHand, 
+            stealth, 
+            survival ]);
+    // console.log('FOURTH QUERY COMPLETED');
+    const finalQuery = await db.query(getCharQuery, [username]);
+    // console.log('FINAL QUERY COMPLETED');
+    responseData = finalQuery.rows[0];
 
-        // next run the third query - saving throw query to update saving throw table
-        // 2nd parameter is deconstructed var from request related to saving throw with username as identifier
-        const throwUpdate = await scoresUpdate.query(savingThrowQuery,
-            [ username, stStr, stDex, stCon, stInt, stWis, stCha ]);
-
-        // next run the final query - skills query to update skills table,
-        // 2nd parameter is deconstructed var from request related to skills with username as identifier
-        const skillsUpdate = await throwUpdate.query(skillsQuery,
-            [ username, acrobatics, animalHandling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleightOfHand, stealth, survival ]);
-
-        // return result from final query call
-        return skillsUpdate;
-    })
-    //updatedCharData should have skillsUpdates object where EVERYTHING should be updated
-    res.locals.updatedChar = updatedCharData.rows;
+    // deconstruct responseData to be in the expect object format
+    res.locals.charSheet = {
+      characterName: responseData.character_name,
+      abilityScores: {
+        str: responseData.str,
+        dex: responseData.dex,
+        con: responseData.con,
+        int: responseData.int,
+        wis: responseData.wis,
+        cha: responseData.cha
+      },
+      race: responseData.race,
+      class: responseData.class,
+      level: responseData.level,
+      armorClass: responseData.armor_class,
+      profBonus: responseData.prof_bonus,
+      speed: responseData.speed,
+      currHP: responseData.curr_hp,
+      maxHP: responseData.max_hp,
+      savingThrow: {
+        str: responseData.ststr,
+        dex: responseData.stdex,
+        con: responseData.stcon,
+        int: responseData.stint,
+        wis: responseData.stwis,
+        cha: responseData.stcon
+      },
+      skills: {
+          acrobatics: responseData.acrobatics,
+          animalHandling: responseData.animal_handling,
+          arcana: responseData.arcana,
+          athletics: responseData.athletics,
+          deception: responseData.deception,
+          history: responseData.history,
+          insight: responseData.insight,
+          intimidation: responseData.intimidation,
+          investigation: responseData.investigation,
+          medicine: responseData.medicine,
+          nature: responseData.nature,
+          perception: responseData.perception,
+          performance: responseData.performance,
+          persuasion: responseData.persuasion,
+          religion: responseData.religion,
+          sleightOfHand: responseData.sleight_of_hand,
+          stealth: responseData.stealth,
+          survival: responseData.survival
+      },
+      additionalNotes: responseData.additional_notes,
+      initiative: responseData.initiative
+    }
     return next();
+
   } catch (error) {
-     return next({
-       log: "Error in trying to run overall transaction query to update character data",
-       status: "400",
-       message: "Not able to run transaction query when updating character data"
-     })
+
+    return next({
+      log: "Error in trying to run overall transaction query to update character data",
+      status: "400",
+      message: "Not able to run transaction query when updating character data"
+    })
   }
 }
 
