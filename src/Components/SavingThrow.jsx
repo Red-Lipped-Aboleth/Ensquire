@@ -23,8 +23,10 @@ const SavingThrow = (props) => {
         onChange={handleChange}
         name={props.statNames}
       />
-      <span className="statName">{props.statNames.toUpperCase()}</span>
-      <span>{calculateModifierWithProf(props.stat)}</span>
+      <span className="statNameSecondary">{props.statNames.toUpperCase()}</span>
+      <span className="statBonusSecondary">
+      {calculateModifierWithProf(props.stat) >= 0 ? '+' : ''}{calculateModifierWithProf(props.stat)}
+      </span>
     </div>
   );
 };

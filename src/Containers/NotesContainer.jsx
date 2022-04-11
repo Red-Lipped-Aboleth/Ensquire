@@ -17,7 +17,12 @@ const NotesContainer = (props) => {
 
   return (
     <section className="Notes" id="Notes">
-      <textarea id="notes" defaultValue={getNotes} onChange={handleChange} />
+      <textarea
+        id="notes"
+        defaultValue={getNotes}
+        onChange={handleChange}
+        rows="10"
+      />
     </section>
   );
 };
