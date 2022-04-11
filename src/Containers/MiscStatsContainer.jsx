@@ -22,44 +22,6 @@ const MiscStatsContainer = (props) => {
     dispatch(actions.updateMiscStats(propertyObject));
   };
 
-<<<<<<< HEAD
-  const handleClick = () => {
-    fetch('/charsheet', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization' : sessionStorage.token,
-        'username' : sessionStorage.username,
-      },
-      body: JSON.stringify(sendAllStats),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log('data:', data);
-      })
-      .catch((err) => {
-        console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
-      });
-  };
-=======
-  // const handleClick = () => {
-  //   fetch('/charsheet', {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(sendAllStats),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log('data:', data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
-  //     });
-  // };
->>>>>>> dev
-
   return (
     <section className="miscStats" id="miscStats">
       <label htmlFor="profBonus">Proficiency: </label>
