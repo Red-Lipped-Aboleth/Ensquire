@@ -33,7 +33,7 @@ const PassiveContainer = (props) => {
     });
     
     return (
-        <section className="passiveComponents">
+        <section className="passiveContainer">
             {passiveComponentArr}
         </section>
     )

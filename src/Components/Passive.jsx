@@ -10,10 +10,10 @@ const Passive = (props) => {
 
   return (
     <div className="passiveComponent">
-      <span>
+      <span className="statBonusSecondary">
         {calculateModifierWithProf(props.abilityScores[props.statToUse])}
       </span>
-      <span>
+      <span className="statNameSecondary">
         PASSIVE {props.statToUse.toUpperCase()} ({props.fullName})
       </span>
     </div>
