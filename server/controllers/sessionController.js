@@ -7,12 +7,13 @@ const sessionController = {};
 
 sessionController.checkToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers['authorization'];
+  console.log(req.headers);
   if (token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
   }
 
   if (token) {
-    jwt.verify(token, ENV.SECRET_KEY, (err, decoded) => {
+    jwt.verify(token, ENV.parsed.SECRET_KEY, (err, decoded) => {
       if (err) {
         return res.json({
           success: false,
@@ -36,10 +37,10 @@ sessionController.createToken = (req, res, next) => {
   const query = 'SELECT password FROM user_table WHERE username = $1';
 
   if (username && password) {
-    db.query(query, [password])
+    db.query(query, [username])
     .then((result) => {
-      if (result[0] === password) {
-        let token = jwt.sign({username}, ENV.SECRET_KEY, { expiresIn : '6h' });
+      if (result.rows[0].password === password) {
+        let token = jwt.sign({username}, ENV.parsed.SECRET_KEY, { expiresIn : '6h' });
         res.json({
           success: true,
           message: 'Authentication successful',

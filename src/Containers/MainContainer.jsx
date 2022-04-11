@@ -17,7 +17,12 @@ const MainContainer = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch('/charsheet')
+    fetch('/charsheet', {
+      headers: {
+        'Authorization' : sessionStorage.token,
+        'username' : sessionStorage.username,
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
       dispatch(actions.populateSheet(data))

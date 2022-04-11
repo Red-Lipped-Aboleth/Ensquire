@@ -27,6 +27,8 @@ const MiscStatsContainer = (props) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization' : sessionStorage.token,
+        'username' : sessionStorage.username,
       },
       body: JSON.stringify(sendAllStats),
     })
