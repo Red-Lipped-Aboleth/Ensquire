@@ -16,11 +16,12 @@ const StatBlock = (props) => {
   }
 
   return (
-    <div className="statBlock">
-      <span>{props.fullStatNames}</span>
-      <span>{calculateModifier(props.stat)}</span>
+    <div className="stat">
+      <span className="statName">{props.fullStatNames.toUpperCase()}</span>
+      <span className="statMod">{calculateModifier(props.stat)}</span>
       <input
         type="number"
+        className="statNum"
         name={props.statNames}
         id={props.statNames}
         min="0"

@@ -21,6 +21,23 @@ const MiscStatsContainer = (props) => {
     dispatch(actions.updateMiscStats(propertyObject));
   };
 
+  const handleClick = () => {
+    fetch('/charsheet', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.stringify(sendAllStats),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
+      });
+  };
+
   return (
     <section className="miscStats" id="miscStats">
       <label htmlFor="profBonus">Proficiency</label>
@@ -76,7 +93,9 @@ const MiscStatsContainer = (props) => {
         max="99"
         onChange={handleChange}
       />
+      <button onClick={handleClick}>Submit</button>
     </section>
+    
   );
 };
 
