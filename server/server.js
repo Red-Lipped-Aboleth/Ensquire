@@ -3,27 +3,27 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
-const cookieParser = require('cookie-parser');
+// const cookieParser = require('cookie-parser');
 const PORT = 3000;
 
 // Import controllers
-const userController = require('./controllers/userController');
-const charsheetController = require('./controllers/charsheetController');
+// const userController = require('./controllers/userController');
+// const charsheetController = require('./controllers/charsheetController');
 
 // Import routers
-const routers = require('./routers/routers');
+const routers = require('./routers/charRouter');
 
 // Global JSON, HTTP body, and cookie parser
-app.use(bodyParser.urlencoded({ extended : true }), cookieParser(), express.json());
+app.use(express.json());
 
 // Delivery of assets via express.static
-app.use('/assets', express.static(path.resolve(__dirname, '..dist/')));
+app.use('/assets', express.static(path.resolve(__dirname, '../dist/assets')));
 
 // Route handlers
-app.use('/charsheet', authRouter, charRouter);
-app.use('/auth', authRouter);
-
-
+app.use('/charsheet', routers);
+app.use('/', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../dist/index.html'));
+});
 // 404 route handler
 app.use((req, res) => res.status(404).send('Page not found!'));
 
