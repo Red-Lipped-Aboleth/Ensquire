@@ -6,7 +6,7 @@
  */
 
 import { combineReducers } from 'redux';
-import characterSheetReducer from 'characterSheetReducer';
+import characterSheetReducer from './characterSheetReducer';
 
 const rootReducer = combineReducers({ 
   characterSheet: characterSheetReducer,

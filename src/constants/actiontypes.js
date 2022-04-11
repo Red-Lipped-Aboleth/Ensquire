@@ -1,9 +1,8 @@
 /**
- * 
+ *
  * @description This file contains the Redux Action Type Constants
- * 
+ *
  */
-
 
 // Add any additional action constants that are required.
 
@@ -16,3 +15,4 @@ export const UPDATE_STATS_BLOCK = 'UPDATE_STATS_BLOCK';
 export const UPDATE_MISC_STATS = 'UPDATE_MISC_STATS';
 export const UPDATE_SAVING_THROWS = 'UPDATE_SAVING_THROWS';
 export const UPDATE_SKILLS = 'UPDATE_SKILLS';
+export const UPDATE_NOTES = 'UPDATE_NOTES'; 
