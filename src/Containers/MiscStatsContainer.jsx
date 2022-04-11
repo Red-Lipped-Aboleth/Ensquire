@@ -11,7 +11,8 @@ Proficiency                Walking            Initiative           Armor Class
 const MiscStatsContainer = (props) => {
   //on change, make a change to the redux store
   const getMiscStats = useSelector((state) => state.characterSheet);
-
+  const sendAllStats = useSelector((state) => state.characterSheet); 
+  
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -27,11 +28,11 @@ const MiscStatsContainer = (props) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.stringify(sendAllStats),
+      body: JSON.stringify(sendAllStats),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        console.log('data:', data);
       })
       .catch((err) => {
         console.log(console.log(`Error submitting character sheet details! Error: ${err}`));

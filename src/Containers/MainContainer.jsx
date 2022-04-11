@@ -19,9 +19,12 @@ const MainContainer = (props) => {
   useEffect(() => {
     fetch('/charsheet')
       .then((res) => res.json())
-      .then((data) => dispatch(actions.populateSheet(data)))
+      .then((data) => {
+      dispatch(actions.populateSheet(data))
+      console.log('data:', data)
+      })
       .catch((err) => {
-        console.log(console.log(`Error retrieving character sheet details! Error: ${err}`));
+        console.log(`Error retrieving character sheet details! Error: ${err}`);
       });
    }, []);
 

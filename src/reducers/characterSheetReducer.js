@@ -57,7 +57,6 @@ const defaultState = {
 };
 
 function characterSheetReducer(state = defaultState, action) {
-  console.log('now I am here, bye', action);
   switch (action.type) {
     case types.POPULATE_SHEET:
       return updateObject(state, action.payload);

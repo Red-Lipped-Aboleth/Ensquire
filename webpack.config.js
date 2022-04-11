@@ -124,6 +124,9 @@ module.exports = function (_env, argv) {
       compress: true,
       historyApiFallback: true,
       open: true,
+      proxy: {
+        '/charsheet': 'http://localhost:3000/'
+      }
     },
   };
 };
