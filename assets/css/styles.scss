@@ -1,4 +1,5 @@
 @import 'variables.scss';
+@import 'https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap';
 
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
@@ -109,7 +110,8 @@ section {
 }
 body {
   line-height: 1;
-  background-color: rgb(209, 191, 158);
+  // background-color: rgb(216, 216, 215);
+  background: $bkrd-secondary-color;
 }
 ol,
 ul {
@@ -147,24 +149,362 @@ table {
 
 html {
   font-size: 0.625em;
-  font-family: Trebuchet MS, Helvetica, Arial, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
+  color: $primary-black;
 }
 
-input[type=checkbox] {
+input[type='checkbox'] {
   appearance: none;
-  background-color: #000;
-  margin: 0;
+  background-color: $bkrd-primary-color;
   font: inherit;
-  color: currentColor;
   width: 1.15em;
   height: 1.15em;
-  border: 0.15em solid currentColor;
+  border: 0.1em solid;
   border-radius: 50%;
-  transform: translateY(-0.075em);
-}
-.checkbox {
-  
+
+  &:hover {
+    background-color: $bkrd-secondary-color;
+  }
 
   &:checked {
+    background-color: #514e72;
   }
+}
+
+#root {
+  // display: flex;
+  // justify-content: center;
+}
+
+/*
+  ========================================
+  Title Styles
+  ========================================
+*/
+main {
+  margin: auto;
+  max-width: 60%;
+}
+
+h1 {
+  font-family: 'Libre Baskerville', serif;
+  font-size: 5.5rem;
+  text-align: center;
+  padding: 2rem 3rem;
+  color: $primary-color;
+}
+
+/*
+  ========================================
+  Basic Info Styles
+  ========================================
+*/
+.basicInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  // background-color: $bkrd-primary-color;
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: $secondary-black;
+  gap: 2rem;
+
+  input {
+    padding: 5px;
+    border: 2px solid $primary-color;
+    border-radius: 5px;
+    text-align: center;
+
+    &:hover {
+      background-color: $bkrd-secondary-color;
+    }
+  }
+}
+
+.topHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1.8rem;
+  // padding: 1.5rem;
+}
+
+.bottomHeader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background: $bkrd-primary-color;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  padding: 4px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: $secondary-black;
+
+  input {
+    background: inherit;
+    width: 5rem;
+    border: none;
+    font-size: 1.75rem;
+    color: $primary-black;
+    text-align: center;
+
+    &:hover {
+      background-color: $bkrd-secondary-color;
+    }
+  }
+}
+
+.slash {
+  font-size: 3rem;
+}
+/*
+  ========================================
+  Misc Styles
+  ========================================
+*/
+.miscStats {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: $secondary-black;
+  padding: 1rem;
+
+  input {
+    padding: 5px;
+    border: 2px solid $primary-color;
+    border-radius: 5px;
+    text-align: center;
+
+    &:hover {
+      background-color: $bkrd-secondary-color;
+    }
+  }
+}
+
+button {
+  background-color: $primary-color;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  color: $bkrd-primary-color;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 5px;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+
+  &:focus {
+    background-color: tertiary-color;
+    box-shadow: 2px 2px 5px $primary-color;
+  }
+}
+/*
+  ========================================
+  Stat Block Styles
+  ========================================
+*/
+
+// This disables the arrows on the Number Inputs
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.statName {
+  color: $secondary-black;
+  font-weight: bold;
+  font-size: 1.1rem;
+  // padding-top: 1rem;
+}
+
+.statBlock {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.stat {
+  background-color: $bkrd-primary-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  gap: 1rem;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  padding: 1rem 1rem;
+}
+
+.statMod {
+  border: 1px solid $secondary-color;
+  border-radius: 4px;
+  padding: 1.25rem 2.5rem;
+  font-size: 2.25rem;
+}
+
+.statNum {
+  text-align: center;
+  padding: 1.2rem 0rem;
+  border-radius: 50%;
+  border: 2px solid $primary-color;
+
+  &:hover {
+    background-color: $bkrd-secondary-color;
+  }
+}
+/*
+  ========================================
+  Bottom Container Styles
+  ========================================
+*/
+.bottom-container {
+  display: grid;
+  grid-template: auto auto auto auto / 2fr 3fr;
+  grid-gap: 1rem;
+  padding: 3rem;
+}
+
+/*
+  ========================================
+  Saving Throw Styles
+  ========================================
+*/
+
+.statNameSecondary {
+  color: $secondary-black;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.statBonusSecondary {
+  color: $primary-black;
+  font-size: 1.6rem;
+}
+
+.savingThrowBlock {
+  background-color: $bkrd-primary-color;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  // max-width: 45%;
+  padding: 5px;
+  // margin: 5px;
+}
+
+.savingThrow {
+  background-color: $bkrd-primary-color;
+  display: flex;
+  justify-content: space-between;
+  flex: auto 0 auto;
+  min-width: 200px;
+  border: 1px solid $secondary-color;
+  border-radius: 5px;
+  align-items: center;
+  padding: 10px 10px;
+}
+
+/*
+  ========================================
+  Skill Styles
+  ========================================
+*/
+.skillComponents {
+  grid-row: 1 / span 4;
+  grid-column: 2;
+  background-color: $bkrd-primary-color;
+  border: 1px solid $primary-color;
+  display: grid;
+  grid-template-columns: 1fr 1fr 5fr 1fr;
+  justify-items: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 5px;
+  // margin: 5px;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  color: $primary-black;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.statName2 {
+  color: $secondary-black;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+/*
+  ========================================
+  Passive Styles
+  ========================================
+*/
+
+.passiveContainer {
+  background-color: $bkrd-primary-color;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+  flex: 1 1 auto;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  padding: 5px;
+  // margin: 5px;
+  color: $secondary-black;
+}
+
+.passiveComponent {
+  background-color: $bkrd-primary-color;
+  display: flex;
+  justify-content: space-between;
+  flex: auto 0 auto;
+  min-width: 200px;
+  border: 1px solid $secondary-color;
+  border-radius: 5px;
+  align-items: center;
+  padding: 10px 10px;
+}
+
+/*
+  ========================================
+  Notes Styles
+  ========================================
+*/
+textarea {
+  resize: none;
+  width: 100%;
+  // padding: 5px;
+  // margin: 5px;
+  border: 2px solid $primary-color;
+  border-radius: 5px;
+  font-size: 1.5rem;
+  grid-row: 3 / span 1;
+  grid-column: 1;
 }

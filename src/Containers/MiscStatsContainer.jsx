@@ -11,6 +11,7 @@ Proficiency                Walking            Initiative           Armor Class
 const MiscStatsContainer = (props) => {
   //on change, make a change to the redux store
   const getMiscStats = useSelector((state) => state.characterSheet);
+  const sendAllStats = useSelector((state) => state.characterSheet);
 
   const dispatch = useDispatch();
 
@@ -21,10 +22,26 @@ const MiscStatsContainer = (props) => {
     dispatch(actions.updateMiscStats(propertyObject));
   };
 
+  // const handleClick = () => {
+  //   fetch('/charsheet', {
+  //     method: 'PUT',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(sendAllStats),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log('data:', data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
+  //     });
+  // };
+
   return (
     <section className="miscStats" id="miscStats">
-      <label htmlFor="profBonus">Proficiency</label>
-      <span id="plusSign">+</span>
+      <label htmlFor="profBonus">Proficiency: </label>
       <input
         type="number"
         name="profBonus"
@@ -36,9 +53,8 @@ const MiscStatsContainer = (props) => {
         value={getMiscStats.profBonus}
         onChange={handleChange}
       />
-      <span>Bonus</span>
 
-      <label htmlFor="speed">WALKING</label>
+      <label htmlFor="speed">Speed: </label>
       <input
         type="number"
         name="speed"
@@ -49,11 +65,8 @@ const MiscStatsContainer = (props) => {
         value={getMiscStats.speed}
         onChange={handleChange}
       />
-      <span>ft.</span>
-      <span>Speed</span>
 
-      <span>INITIATIVE</span>
-      <span id="plusSign">+</span>
+      <span>Initiative: </span>
       <input
         type="number"
         name="initiative"
@@ -65,7 +78,7 @@ const MiscStatsContainer = (props) => {
         onChange={handleChange}
       />
 
-      <span>ARMOR</span>
+      <span>Armor: </span>
       <input
         type="number"
         name="armorClass"
@@ -76,6 +89,7 @@ const MiscStatsContainer = (props) => {
         max="99"
         onChange={handleChange}
       />
+      {/* <button onClick={handleClick}>Submit</button> */}
     </section>
   );
 };

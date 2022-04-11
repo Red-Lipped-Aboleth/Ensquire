@@ -16,7 +16,7 @@ const Skill = (props) => {
   }
 
   return (
-    <div className="skillComponent">
+    <>
       <input
         type="checkbox"
         className="checkbox"
@@ -24,12 +24,13 @@ const Skill = (props) => {
         onChange={handleChange}
         name={props.name}
       />
-      <span>{props.statToUse.toUpperCase()}</span>
+      <span className="statNameSecondary">{props.statToUse.toUpperCase()}</span>
       <span>{props.fullName}</span>
       <span>
+        {calculateModifierWithProf(props.abilityScores[props.statToUse]) >= 0 ? '+' : ''}
         {calculateModifierWithProf(props.abilityScores[props.statToUse])}
       </span>
-    </div>
+    </>
   );
 };
 

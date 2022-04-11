@@ -67,10 +67,10 @@ const SkillContainer = (props) => {
     
     return (
         <section className="skillComponents">
-            <span>PROF</span> 
-            <span>MOD</span> 
-            <span>SKILL</span> 
-            <span>BONUS</span> 
+            <span className="statName2">PROF</span> 
+            <span className="statName2">MOD</span> 
+            <span className="statName2">SKILL</span> 
+            <span className="statName2">BONUS</span> 
             {skillComponentArr}
         </section>
     )
