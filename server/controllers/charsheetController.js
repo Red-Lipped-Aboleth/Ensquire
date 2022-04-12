@@ -6,14 +6,14 @@ characterController.getCharSheet = async (req, res, next) =>{
   const getCharQuery = `
     SELECT c.*, s.*, st.str AS stStr, st.dex AS stDex, st.con AS stCon, st.int AS stInt, st.wis AS stWis, st.cha AS stWis, sk.*
     FROM character c, ability_scores s, saving_throw st, skills sk
-    WHERE c.character_id = (SELECT user_id FROM user_table WHERE username = $1)
+    WHERE c.character_id = (SELECT character_id FROM user_table WHERE username = $1)
     AND c.ability_scores_id = s.score_id
     AND c.saving_throw_id = st.throw_id
     AND sk.skills_id = sk.skills_id;
   `
   //deconstruct user from cookies to find the specific charactersheet associated with the user
-  // const { username } = req.cookies
-  const username = 'danteng'
+  
+  const username = req.headers.username;
 
   try {
     //fetching all the data for the character sheet from the user
@@ -74,7 +74,7 @@ characterController.getCharSheet = async (req, res, next) =>{
     return next()
   } catch (error) {
     return next({
-      log:'Error in getting character data from character id',
+      log: `Error in getting character data from character id ${error}`,
       status: 400,
       message: 'Could not get character data from character id'
     })
@@ -84,13 +84,13 @@ characterController.getCharSheet = async (req, res, next) =>{
 //function to update all the character information
 characterController.updateCharSheet = async (req, res, next) => {
   //grabbing username to use for all queries
-  // const { username } = req.cookies;
-  const username = 'danteng'
+
+  const username = req.headers.username;
   //SQL query for getting character information
   const getCharQuery = `
     SELECT c.*, s.*, st.str AS stStr, st.dex AS stDex, st.con AS stCon, st.int AS stInt, st.wis AS stWis, st.cha AS stWis, sk.*
     FROM character c, ability_scores s, saving_throw st, skills sk
-    WHERE c.character_id = (SELECT user_id FROM user_table WHERE username = $1)
+    WHERE c.character_id = (SELECT character_id FROM user_table WHERE username = $1)
     AND c.ability_scores_id = s.score_id
     AND c.saving_throw_id = st.throw_id
     AND sk.skills_id = sk.skills_id;
@@ -101,7 +101,7 @@ characterController.updateCharSheet = async (req, res, next) => {
   const charTableQuery = `
     UPDATE character
     SET character_name = $2, race = $3, level = $4, armor_class = $5, prof_bonus = $6, speed = $7, curr_hp = $8, max_hp = $9, additional_notes = $10, initiative = $11, class = $12
-    WHERE character_id = (SELECT user_id FROM user_table WHERE username = $1);
+    WHERE character_id = (SELECT character_id FROM user_table WHERE username = $1);
   `;
 
   //Deconstruction values from req.body related to character table
@@ -127,7 +127,7 @@ characterController.updateCharSheet = async (req, res, next) => {
   const abilityScoresQuery = `
     UPDATE ability_scores
     SET str = $2, dex = $3, con = $4, int = $5, wis = $6, cha = $7
-    WHERE score_id = (SELECT user_id FROM user_table WHERE username = $1);
+    WHERE score_id = (SELECT character_id FROM user_table WHERE username = $1);
   `;
   //Deconstruction values for req.body.abilityScores_id
   const { str, dex, con, int, wis, cha } = req.body.abilityScores;
@@ -137,7 +137,7 @@ characterController.updateCharSheet = async (req, res, next) => {
   const savingThrowQuery = `
     UPDATE saving_throw
     SET str = $2, dex = $3, con = $4, int = $5, wis = $6, cha = $7
-    WHERE throw_id = (SELECT user_id FROM user_table WHERE username = $1);
+    WHERE throw_id = (SELECT character_id FROM user_table WHERE username = $1);
   `;
  //Deconstruction values for req.body.savingThrow. Named differently as you can't have 2 Str variables
   const stStr = req.body.savingThrow.str;
@@ -152,7 +152,7 @@ characterController.updateCharSheet = async (req, res, next) => {
   const skillsQuery = `
     UPDATE skills
     SET acrobatics = $2, animal_handling = $3, arcana = $4, athletics = $5, deception = $6, history = $7, insight = $8, intimidation = $9, investigation = $10, medicine = $11, nature = $12, perception = $13, performance = $14, persuasion = $15, religion = $16, sleight_of_hand = $17, stealth = $18, survival = $19
-    WHERE skills_id = (SELECT user_id FROM user_table WHERE username = $1)
+    WHERE skills_id = (SELECT character_id FROM user_table WHERE username = $1)
   `;
   //Deconstruction values for req.body.skill_id
   const { acrobatics, 

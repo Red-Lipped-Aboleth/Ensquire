@@ -22,23 +22,6 @@ const MiscStatsContainer = (props) => {
     dispatch(actions.updateMiscStats(propertyObject));
   };
 
-  // const handleClick = () => {
-  //   fetch('/charsheet', {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(sendAllStats),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log('data:', data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
-  //     });
-  // };
-
   return (
     <section className="miscStats" id="miscStats">
       <label htmlFor="profBonus">Proficiency: </label>

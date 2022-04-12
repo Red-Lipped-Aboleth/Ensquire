@@ -3,12 +3,13 @@ import App from './App';
 import { Provider } from 'react-redux' ; 
 import { render } from 'react-dom'; 
 import store from './store/store'; 
+import Login from './Containers/Login';
 
 import '../assets/css/styles.scss'
 
 render(
     <Provider store={store}>
-      <App />
+      <Login />
     </Provider>,
     document.getElementById('root')
 );

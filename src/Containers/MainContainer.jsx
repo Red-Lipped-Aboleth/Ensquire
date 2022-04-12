@@ -18,7 +18,12 @@ const MainContainer = (props) => {
   const sendAllStats = useSelector((state) => state.characterSheet); 
 
   useEffect(() => {
-    fetch('/charsheet')
+    fetch('/charsheet', {
+      headers: {
+        'Authorization' : sessionStorage.token,
+        'username' : sessionStorage.username,
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
       dispatch(actions.populateSheet(data))
@@ -35,6 +40,8 @@ const MainContainer = (props) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization' : sessionStorage.token,
+        'username' : sessionStorage.username,
       },
       body: JSON.stringify(sendAllStats),
     })
