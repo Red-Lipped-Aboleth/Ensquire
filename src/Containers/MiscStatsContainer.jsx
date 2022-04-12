@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import * as actions from '../actions/actions';
-/* 
-Second container form the top 
 
-Proficiency                Walking            Initiative           Armor Class
-   num                       ft                  +num                  num
-  Bonus                    Speed                                 
-*/
 const MiscStatsContainer = (props) => {
-  //on change, make a change to the redux store
-  const getMiscStats = useSelector((state) => state.characterSheet);
-  const sendAllStats = useSelector((state) => state.characterSheet);
 
+  const getMiscStats = useSelector((state) => state.characterSheet);
+  
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -32,7 +25,6 @@ const MiscStatsContainer = (props) => {
         min="0"
         max="20"
         step="1"
-        // pattern="/[0-9]/"
         value={getMiscStats.profBonus}
         onChange={handleChange}
       />
@@ -72,7 +64,6 @@ const MiscStatsContainer = (props) => {
         max="99"
         onChange={handleChange}
       />
-      {/* <button onClick={handleClick}>Submit</button> */}
     </section>
   );
 };

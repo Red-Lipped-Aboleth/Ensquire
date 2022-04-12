@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { useSelector, useDispatch, connect } from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import * as actions from '../actions/actions';
+
+//currently notes do not save to the store 
 
 const NotesContainer = (props) => {
   const getNotes = useSelector((state) => state.characterSheet.additionalNotes);

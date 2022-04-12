@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import * as actions from '../actions/actions';
 
+//skills are currently not saving to the store
+
 const Skill = (props) => {
   const handleChange = (event) => {
     const propertyName = event.target.getAttribute('name');

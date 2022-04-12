@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import Skill from '../Components/Skill'
-import * as actions from '../actions/actions'
 
 const SkillContainer = (props) => {
 

@@ -2,17 +2,7 @@ import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import * as actions from '../actions/actions';
 //import images
-//also remember to add images to webpack?
-
-/*
-Located at the top of the page 
-photo of character  ======================== hitpoints
-name of character 
-race
-level
-*/
-
-//LOOK INTO DEFAULT INPUT FIELDS !!!!!!!
+//also remember to add images to webpack
 
 const BasicInfoContainer = (props) => {
   //on change, make a change to the redux store
@@ -29,7 +19,6 @@ const BasicInfoContainer = (props) => {
 
   return (
     <section className="basicInfo" id="basicInfo">
-      {/* <img src={charPhoto} /> */}
       <section className="topHeader">
       <label htmlFor="characterName">Name: </label>
         <input

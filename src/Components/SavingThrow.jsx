@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import * as actions from '../actions/actions';
 
 const SavingThrow = (props) => {
+
   const handleChange = (event) => {
     const propertyName = event.target.getAttribute('name');
     const propertyObject = {};
@@ -25,7 +26,8 @@ const SavingThrow = (props) => {
       />
       <span className="statNameSecondary">{props.statNames.toUpperCase()}</span>
       <span className="statBonusSecondary">
-      {calculateModifierWithProf(props.stat) >= 0 ? '+' : ''}{calculateModifierWithProf(props.stat)}
+        {calculateModifierWithProf(props.stat) >= 0 ? '+' : ''}
+        {calculateModifierWithProf(props.stat)}
       </span>
     </div>
   );
