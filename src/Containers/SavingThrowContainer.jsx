@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import SavingThrow from '../Components/SavingThrow';
-import * as actions from '../actions/actions'
 
 const SavingThrowContainer = (props) => {
 
@@ -28,12 +27,12 @@ const SavingThrowContainer = (props) => {
     const statBlockArray = statArr.map((el, i) => {
         return (
             <SavingThrow 
-            key={keyNames[i]} 
-            statNames={keyNames[i]} 
-            stat={el} 
-            passStat={passStatArr[i]}
-            dispatch={dispatch}
-            proficiency={getProf}
+                key={keyNames[i]} 
+                statNames={keyNames[i]} 
+                stat={el} 
+                passStat={passStatArr[i]}
+                dispatch={dispatch}
+                proficiency={getProf}
             />);
     });
     

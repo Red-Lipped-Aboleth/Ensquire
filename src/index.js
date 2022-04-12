@@ -6,7 +6,13 @@ import store from './store/store';
 
 import '../assets/css/styles.scss'
 
-render(
+/**
+ * 
+ * @description Provider connects redux/react and provides access to all redux states.
+ * 
+ */
+
+render( 
     <Provider store={store}>
       <App />
     </Provider>,

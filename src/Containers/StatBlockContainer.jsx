@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import StatBlock from '../Components/StatBlock';
-// import * as actions from '../actions/actions'
 
 const StatBlockContainer = (props) => {
-  //on change, make a change to the redux store
   const getStr = useSelector((state) => state.characterSheet.abilityScores.str);
   const getDex = useSelector((state) => state.characterSheet.abilityScores.dex);
   const getCon = useSelector((state) => state.characterSheet.abilityScores.con);
@@ -24,6 +22,7 @@ const StatBlockContainer = (props) => {
     'Wisdom',
     'Charisma',
   ];
+  
   const statBlockArray = statArr.map((el, i) => {
     return (
       <StatBlock

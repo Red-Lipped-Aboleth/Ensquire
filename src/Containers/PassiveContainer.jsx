@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import Passive from '../Components/Passive';
-import * as actions from '../actions/actions'
 
 const PassiveContainer = (props) => {
 

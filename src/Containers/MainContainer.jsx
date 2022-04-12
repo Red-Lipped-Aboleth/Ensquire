@@ -2,7 +2,6 @@ import React, { Component, useEffect } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import * as actions from '../actions/actions';
 
-// import from child components...
 import MiscStatsContainer from './MiscStatsContainer';
 import BasicInfoContainer from './BasicInfoContainer';
 import NotesContainer from './NotesContainer';
@@ -12,7 +11,7 @@ import SkillContainer from './SkillContainer';
 import StatBlockContainer from './StatBlockContainer';
 
 const MainContainer = (props) => {
-  // const getData = useSelector((state) => state.characterSheet);
+ 
   const dispatch = useDispatch();
 
   const sendAllStats = useSelector((state) => state.characterSheet); 
@@ -50,7 +49,6 @@ const MainContainer = (props) => {
   return (
     <main className="container">
       <h1 id="header">Dungeons & Dragons Character Sheet</h1>
-      {/* Containers here... */}
       <BasicInfoContainer />
       <MiscStatsContainer />
       <StatBlockContainer />

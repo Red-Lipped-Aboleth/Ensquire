@@ -1,18 +1,11 @@
 import React, { Component } from 'react';
 import { useSelector, useDispatch, connect } from 'react-redux';
 import * as actions from '../actions/actions';
-/* 
-Second container form the top 
 
-Proficiency                Walking            Initiative           Armor Class
-   num                       ft                  +num                  num
-  Bonus                    Speed                                 
-*/
 const MiscStatsContainer = (props) => {
-  //on change, make a change to the redux store
-  const getMiscStats = useSelector((state) => state.characterSheet);
-  const sendAllStats = useSelector((state) => state.characterSheet);
 
+  const getMiscStats = useSelector((state) => state.characterSheet);
+  
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -21,23 +14,6 @@ const MiscStatsContainer = (props) => {
     propertyObject[propertyName] = event.target.value;
     dispatch(actions.updateMiscStats(propertyObject));
   };
-
-  // const handleClick = () => {
-  //   fetch('/charsheet', {
-  //     method: 'PUT',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(sendAllStats),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       console.log('data:', data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(console.log(`Error submitting character sheet details! Error: ${err}`));
-  //     });
-  // };
 
   return (
     <section className="miscStats" id="miscStats">
@@ -49,7 +25,6 @@ const MiscStatsContainer = (props) => {
         min="0"
         max="20"
         step="1"
-        // pattern="/[0-9]/"
         value={getMiscStats.profBonus}
         onChange={handleChange}
       />
@@ -89,7 +64,6 @@ const MiscStatsContainer = (props) => {
         max="99"
         onChange={handleChange}
       />
-      {/* <button onClick={handleClick}>Submit</button> */}
     </section>
   );
 };

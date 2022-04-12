@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import * as actions from '../actions/actions';
 
 const Passive = (props) => {
   function calculateModifierWithProf(score) {
