@@ -1,29 +1,31 @@
 const db = require('../model/database_model');
 
 const userController = {};
-const activeSessions = {};
-const staticQuery = 
-`INSERT INTO character (character_name, race, level, armor_class, prof_bonus, speed, curr_hp, max_hp, additional_notes, initiative) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9), $10)
-INSERT INTO ability_scores (str, dex, con, int, wis, cha) VALUES ($1, $2, $3, $4, $5, $6)
-INSERT INTO saving_throw (str, dex, con, int, wis, cha) VALES ($1, $2, $3, $4, $5, $6)
-INSERT INTO skills (acrobatics, animal_handling, arcana, athletics, deception, history, insight, intimidation, investigation, medicine, nature, perception, performance, persuasion, religion, sleight_of_hand, stealth, survival) VALUE ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18);`;
 
+userController.createUser = async (req, res, next) => {
+  const { first_name, last_name, email, username, password } = req.body;
+  const dynamicQueryUser = 'INSERT INTO "user_table" (first_name, last_name, email, username, password) VALUES ($1, $2, $3, $4, $5);';
+  const charIDSelect = `SELECT character_id FROM "user_table" WHERE username = $1`;
+  const dynamicQueryCharacter = `INSERT INTO character ("character_id", "character_name", "race", "level", "armor_class", "prof_bonus", "speed", "curr_hp", "max_hp", "additional_notes", "initiative") VALUES ($1, 'dan', 'mush', '0', '20', '3', '10', '10', '10', 'some notes', '5');`;
+  const dependentTableSelect = `SELECT saving_throw_id, skill_id, ability_scores_id FROM "character" WHERE character_id = $1`;
 
-userController.createUser = (req, res, next) => {
-  const { firstName, lastName, email, username, password } = req.body;
-  const dynamicQuery = 'INSERT INTO "user_table" (firstName, lastName, email, username, password) VALUES ($1, $2, $3, $4, $5);';  
-  db.query(dynamicQuery, [firstName, lastName, email, username, password])
-  .then((result) => {
-    console.log(`Successfully created user entry: ${result}, creating character sheet.`);
-    db.query(staticQuery).then((result) => {
-      console.log(`Successfully created character sheet: ${result}, creating auth token now.`);
-      return next();
+  try {
+    await db.query(dynamicQueryUser, [first_name, last_name, email, username, password]);
+    const charID = await db.query(charIDSelect, [username]);
+    await db.query(dynamicQueryCharacter, [charID.rows[0].character_id]);
+    const dependentTableID = await db.query(dependentTableSelect, [charID.rows[0].character_id]);
+    await db.query(`INSERT INTO ability_scores VALUES ($1, '10', '11', '12', '13', '14', '15');`, [dependentTableID.rows[0].ability_scores_id]);
+    await db.query(`INSERT INTO saving_throw VALUES ($1, 'true', 'false', 'true', 'false', 'false', 'false');`, [dependentTableID.rows[0].saving_throw_id]);
+    await db.query(`INSERT INTO skills VALUES($1, 'false', 'false', 'true', 'false', 'false', 'false', 'false', 'false', 'false', 'true', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false');`, [dependentTableID.rows[0].skill_id]);
+    next();
+  } catch (err) {
+    next({
+      log: `Error creating user: ${err}`,
+      message: 'Error creating user in database - see database logs for more information'
     })
-  })
-  .catch((err) => {
-    return next({
-      log: `Error: ${err}`,
-      message: 'Error creating user - see server logs for more details'
-    });
-  })
+  }
+  
+
 };
+
+module.exports = userController;

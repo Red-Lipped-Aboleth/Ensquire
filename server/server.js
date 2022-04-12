@@ -6,12 +6,12 @@ const server = http.createServer(app);
 // const cookieParser = require('cookie-parser');
 const PORT = 3000;
 
-// Import controllers
-// const userController = require('./controllers/userController');
 // const charsheetController = require('./controllers/charsheetController');
 
 // Import routers
 const routers = require('./routers/charRouter');
+const authRouter = require('./routers/authRouter');
+const sessionController = require('./controllers/sessionController');
 
 // Global JSON, HTTP body, and cookie parser
 app.use(express.json());
@@ -20,10 +20,12 @@ app.use(express.json());
 app.use('/assets', express.static(path.resolve(__dirname, '../dist/assets')));
 
 // Route handlers
-app.use('/charsheet', routers);
+app.use('/charsheet', sessionController.checkToken, routers);
+app.use('/auth', authRouter);
 app.use('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist/index.html'));
 });
+
 // 404 route handler
 app.use((req, res) => res.status(404).send('Page not found!'));
 
